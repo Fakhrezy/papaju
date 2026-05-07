@@ -9,6 +9,7 @@ env:
   ECR_REPOSITORY: papaju-repo
   ECS_CLUSTER: papaju-cluster
   ECS_SERVICE: papaju-service
+  ECS_TASK_DEFINITION: papaju-task
   CONTAINER_NAME: papaju
 
 jobs:
@@ -46,7 +47,7 @@ jobs:
       - name: Download current task definition
         run: |
           aws ecs describe-task-definition \
-            --task-definition ${{ env.ECS_SERVICE }} \
+            --task-definition ${{ env.ECS_TASK_DEFINITION }} \
             --query taskDefinition \
             > task-definition.json
 
