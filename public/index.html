@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title> PAPAJU — Pantau Pelaporan Jalan Umum</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="logo"> PAPAJU</div>
+      <nav>
+        <button class="nav-btn active" onclick="showTab('beranda')">Beranda</button>
+        <button class="nav-btn" onclick="showTab('laporan')">Buat Laporan</button>
+        <button class="nav-btn" onclick="showTab('daftar')">Daftar Laporan</button>
+        <button class="nav-btn" onclick="showTab('admin')">Admin</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- BERANDA -->
+    <section id="tab-beranda" class="tab active">
+      <div class="hero">
+        <h1>Laporkan Kemacetan &amp; Kecelakaan</h1>
+        <p>Bantu sesama pengguna jalan dengan melaporkan kondisi lalu lintas di sekitar kamu.</p>
+        <button class="btn-primary" onclick="showTab('laporan')">Buat Laporan Sekarang</button>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-num" id="stat-total">-</div><div class="stat-label">Total Laporan</div></div>
+        <div class="stat-card"><div class="stat-num" id="stat-menunggu">-</div><div class="stat-label">Menunggu</div></div>
+        <div class="stat-card"><div class="stat-num" id="stat-diproses">-</div><div class="stat-label">Diproses</div></div>
+        <div class="stat-card"><div class="stat-num" id="stat-selesai">-</div><div class="stat-label">Selesai</div></div>
+      </div>
+    </section>
+
+    <!-- FORM LAPORAN -->
+    <section id="tab-laporan" class="tab">
+      <div class="card">
+        <h2>Buat Laporan Baru</h2>
+        <form id="form-laporan">
+          <div class="form-group">
+            <label>Judul Laporan *</label>
+            <input type="text" name="judul" placeholder="Contoh: Kemacetan parah di Jl. Sudirman" required/>
+          </div>
+          <div class="form-group">
+            <label>Jenis Kejadian *</label>
+            <select name="jenis" required>
+              <option value="">-- Pilih Jenis --</option>
+              <option value="kemacetan">Kemacetan</option>
+              <option value="kecelakaan">Kecelakaan</option>
+              <option value="lainnya">Lainnya</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Lokasi *</label>
+            <input type="text" name="lokasi" placeholder="Contoh: Jl. Asia Afrika, Bandung" required/>
+          </div>
+          <div class="form-group">
+            <label>Deskripsi *</label>
+            <textarea name="deskripsi" rows="4" placeholder="Jelaskan kondisi yang terjadi..." required></textarea>
+          </div>
+          <div class="form-group">
+            <label>Foto Kejadian (opsional)</label>
+            <input type="file" name="foto" accept="image/*" id="foto-input"/>
+            <div id="foto-preview"></div>
+          </div>
+          <div class="form-group">
+            <label>Nama Pelapor</label>
+            <input type="text" name="pelapor" placeholder="Anonim jika dikosongkan"/>
+          </div>
+          <button type="submit" class="btn-primary" id="btn-submit">Kirim Laporan</button>
+          <div id="form-msg"></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- DAFTAR LAPORAN -->
+    <section id="tab-daftar" class="tab">
+      <div class="filter-bar">
+        <select id="filter-status" onchange="loadLaporan()">
+          <option value="">Semua Status</option>
+          <option value="menunggu">Menunggu</option>
+          <option value="diproses">Diproses</option>
+          <option value="selesai">Selesai</option>
+        </select>
+        <select id="filter-jenis" onchange="loadLaporan()">
+          <option value="">Semua Jenis</option>
+          <option value="kemacetan">Kemacetan</option>
+          <option value="kecelakaan">Kecelakaan</option>
+          <option value="lainnya">Lainnya</option>
+        </select>
+        <button class="btn-outline" onclick="loadLaporan()">Refresh</button>
+      </div>
+      <div id="laporan-list"></div>
+      <div id="pagination" class="pagination"></div>
+    </section>
+
+    <!-- ADMIN -->
+    <section id="tab-admin" class="tab">
+      <div class="card" id="admin-login-card">
+        <h2>Login Admin</h2>
+        <form id="form-login">
+          <div class="form-group">
+            <label>Username</label>
+            <input type="text" id="admin-user" placeholder="admin" required/>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="admin-pass" placeholder="password" required/>
+          </div>
+          <button type="submit" class="btn-primary">Login</button>
+          <div id="login-msg"></div>
+        </form>
+      </div>
+      <div id="admin-panel" style="display:none">
+        <div class="admin-header">
+          <h2>Panel Admin</h2>
+          <button class="btn-outline" onclick="logout()">Logout</button>
+        </div>
+        <div id="admin-laporan-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
